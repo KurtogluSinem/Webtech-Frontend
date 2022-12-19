@@ -1,4 +1,5 @@
 # webtech-frontend
+[![CI](https://github.com/KurtogluSinem/webtech-frontend/actions/workflows/ci.yml/badge.svg)](https://github.com/KurtogluSinem/webtech-frontend/actions/workflows/ci.yml)
 
 ## Project setup
 ```
