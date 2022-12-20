@@ -16,9 +16,14 @@
     <th scope="row"></th>
     <td>{{todolist.id}}</td>
     <td>{{todolist.erledigt}}</td>
-    <td>{{todolist.aufgabe}}</td>
-    <td>{{todolist.abgabe_Datum}}</td>
-    <td>{{todolist.archiv}}</td>
+    <td>{{todolist.Aufgabe}}</td>
+    <td>{{todolist.abgabedatum}}</td>
+    <td>{{todolist.Archiv}}</td>
+    <td>{{todolist.löschen}}</td>
+    <td>{{todolist.nochZuErledigenTasks}}</td>
+    <td>{{todolist.rückgängig}}</td>
+    <td>{{todolist.speichern}}</td>
+
   </tr>
 
   <!-- <tr>
@@ -51,33 +56,23 @@
 <script>
 export default {
   name: "TodoLists",
-  data(){
-    return{
-      TodoLists: [
-        {
-          id: 1,
-          abgabe_Datum: '2008-11-11',
-          archiv: true,
-          aufgabe: 'lernen',
-          erledigt: false,
-          löschen: false,
-          noch_zu_erledigen_task: false,
-          rückgängig: false,
-          speichern: true
-        },
-        {
-          id: 2,
-          abgabe_Datum: '2009-11-11',
-          archiv: true,
-          aufgabe: 'spanisch lernen',
-          erledigt: false,
-          löschen: false,
-          noch_zu_erledigen_task: false,
-          rückgängig: false,
-          speichern: true
-        }
-      ]
+  data() {
+    return {
+      TodoLists: []
     }
+  },
+  mounted() {
+    const requestOptions = {
+      method: 'GET',
+      redirect: 'follow'
+    }
+
+    fetch("http://localhost:8080/api/v1/TodoLists", requestOptions)
+        .then(response => response.json())
+        .then(result => result.forEach(todolist =>{
+          this.TodoLists.push(todolist)
+        }))
+        .catch(error => console.log('error', error))
   }
 }
 
