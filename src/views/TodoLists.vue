@@ -54,6 +54,8 @@
 </template>
 
 <script>
+
+
 export default {
   name: "TodoLists",
   data() {
@@ -69,7 +71,7 @@ export default {
 
     fetch("http://localhost:8080/api/v1/TodoLists", requestOptions)
         .then(response => response.json())
-        .then(result => result.forEach(todolist =>{
+        .then(result => result.forEach(todolist => {
           this.TodoLists.push(todolist)
         }))
         .catch(error => console.log('error', error))
