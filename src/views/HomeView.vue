@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Hello World!"/>
+    <HelloWorld msg="Willkommen bei Just Pull Up!"/>
   </div>
 </template>
 

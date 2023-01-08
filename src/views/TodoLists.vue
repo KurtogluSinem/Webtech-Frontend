@@ -1,78 +1,50 @@
 <template>
-<h1>Welcome to ToDoLists</h1>
-  <table class="table table-bordered">
-      <thead>
-  <tr>
-    <th scope="col">Priorität</th>
-    <th scope="col">Tick</th>
-    <th scope="col">Aufgabe</th>
-    <th scope="col">Fälligkeitsdatum</th>
-    <th scope="col">Actions</th>
-  </tr>
-  </thead>
-      <div class="row" v-for="todolist in TodoLists" :key="todolist.id">
-  <tbody>
-  <tr>
-    <th scope="row"></th>
-    <td>{{todolist.id}}</td>
-    <td>{{todolist.erledigt}}</td>
-    <td>{{todolist.Aufgabe}}</td>
-    <td>{{todolist.abgabedatum}}</td>
-    <td>{{todolist.Archiv}}</td>
-    <td>{{todolist.löschen}}</td>
-    <td>{{todolist.nochZuErledigenTasks}}</td>
-    <td>{{todolist.rückgängig}}</td>
-    <td>{{todolist.speichern}}</td>
 
-  </tr>
+  <h1></h1>
+  <div class="container-fluid">
+    <todo-list-table :todoLists="this.todoLists"></todo-list-table>
 
-  <!-- <tr>
-    <th scope="row"></th>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>
- <tr>
-    <th scope="row">3</th>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <th scope="row">4</th>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>-->
-
-    </tbody>
-    </div>
-  </table>
+  </div>
+  <todolist-create-form @created="addTodoList"></todolist-create-form>
 </template>
 
 <script>
 
 
+import TodolistCreateForm from "@/views/TodolistsCreateForm"
+import TodoListTable from "@/components/TodoListTable";
 export default {
   name: "TodoLists",
+
+  components: {TodoListTable, TodolistCreateForm},
   data() {
     return {
-      TodoLists: []
+      todoLists: []
+    }
+  },
+  methods: {
+    addTodoList(todoListLocation) {
+      const endpoint = process.env.VUE_APP_BACKEND_BASE_URL + todoListLocation
+      const requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+      }
+      fetch(endpoint, requestOptions)
+          .then(response => response.json())
+          .then(todoList => this.todoLists.push(todoList))
+          .catch(error => console.log('error', error))
     }
   },
   mounted() {
+    const endpoint = process.env.VUE_APP_BACKEND_BASE_URL + '/api/v1/TodoLists'
     const requestOptions = {
       method: 'GET',
       redirect: 'follow'
     }
-
-    fetch("http://localhost:8080/api/v1/TodoLists", requestOptions)
+    fetch(endpoint, requestOptions)
         .then(response => response.json())
-        .then(result => result.forEach(todolist => {
-          this.TodoLists.push(todolist)
+        .then(result => result.forEach(todoList => {
+          this.todoLists.push(todoList)
         }))
         .catch(error => console.log('error', error))
   }
@@ -83,3 +55,4 @@ export default {
 <style scoped>
 
 </style>
+
